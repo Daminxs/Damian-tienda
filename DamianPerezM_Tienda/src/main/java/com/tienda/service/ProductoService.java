@@ -3,6 +3,7 @@ package com.tienda.service;
 import com.tienda.domain.Producto;
 import com.tienda.repository.ProductoRepository;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -57,20 +58,32 @@ public class ProductoService {
 
     @Transactional
     public void delete(Integer idProducto) {
-
+        // Verifica si la categoría existe antes de intentar eliminarlo
         if (!productoRepository.existsById(idProducto)) {
-            throw new IllegalArgumentException(
-                    "El producto con ID " + idProducto + " no existe."
-            );
+            // Lanza una excepción para indicar que el usuario no fue encontrado
+            throw new IllegalArgumentException("La categoría con ID " + idProducto + " no existe.");
         }
-
         try {
             productoRepository.deleteById(idProducto);
         } catch (DataIntegrityViolationException e) {
-            throw new IllegalStateException(
-                    "No se puede eliminar el producto. Tiene datos asociados.",
-                    e
-            );
+            // Lanza una nueva excepción para encapsular el problema de integridad de datos
+            throw new IllegalStateException("No se puede eliminar la producto. Tiene datos asociados.", e);
         }
     }
+
+    @Transactional(readOnly = true)
+    public List<Producto> consultaDerivada(BigDecimal precioInf, BigDecimal precioSup) {
+        return productoRepository.findByPrecioBetweenOrderByPrecioAsc(precioInf, precioSup);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Producto> consultaJPQL(BigDecimal precioInf, BigDecimal precioSup) {
+        return productoRepository.consultaJPQL(precioInf, precioSup);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Producto> consultaSQL(BigDecimal precioInf, BigDecimal precioSup) {
+        return productoRepository.consultaSQL(precioInf, precioSup);
+    }
+
 }
