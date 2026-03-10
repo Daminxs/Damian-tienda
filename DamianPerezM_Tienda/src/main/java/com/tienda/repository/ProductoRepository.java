@@ -29,4 +29,8 @@ public interface ProductoRepository extends JpaRepository<Producto, Integer> {
     @Query(nativeQuery = true,
             value = "SELECT * FROM producto p WHERE p.precio BETWEEN :precioInf AND :precioSup ORDER BY p.precio ASC")
     public List<Producto> consultaSQL(BigDecimal precioInf, BigDecimal precioSup);
+    
+    // Consulta para la Práctica #2 usa el mismo metodo que los demas de precio por orden
+    @Query("SELECT p FROM Producto p WHERE p.precio BETWEEN :precioInf AND :precioSup ORDER BY p.precio ASC")
+    public List<Producto> consultaPractica2(BigDecimal precioInf, BigDecimal precioSup);
 }
