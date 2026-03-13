@@ -20,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
+
 @Configuration
 public class SecurityConfig {
 
@@ -27,15 +28,15 @@ public class SecurityConfig {
         "/", "/index", "/fav/**", "/carrito/**", "/consultas/**", "/registro/**",
         "/js/**", "/webjars/**", "/login", "/acceso_denegado"
     };
-
+    
     public static final String[] USUARIO_URLS = {
         "/facturar/carrito"
     };
-
+    
     public static final String[] ADMIN_OR_VENDEDOR_URLS = {
         "/producto/listado", "/categoria/listado", "/usuario/listado"
     };
-
+    
     public static final String[] ADMIN_URLS = {
         "/producto/**", "/categoria/**", "/usuario/**"
     };
@@ -67,10 +68,9 @@ public class SecurityConfig {
                 .maxSessionsPreventsLogin(false)
         );
         
-        
         return http.build();
     }
-    
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -84,19 +84,19 @@ public class SecurityConfig {
                 .password(passwordEncoder.encode("123"))
                 .roles("ADMIN")
                 .build();
-
+        
         UserDetails rebeca = User.builder()
                 .username("rebeca")
                 .password(passwordEncoder.encode("456"))
                 .roles("VENDEDOR")
                 .build();
-
+        
         UserDetails pedro = User.builder()
                 .username("pedro")
                 .password(passwordEncoder.encode("789"))
-                .roles("USUARIO") // Consistente con tu configuración
+                .roles("USUARIO") // Consistent con tu configuración
                 .build();
-
+        
         return new InMemoryUserDetailsManager(juan, rebeca, pedro);
     }
 
