@@ -59,7 +59,7 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    // Este método será reemplazado la siguiente semana
+//    Este método será reemplazado la siguiente semana
 //    @Bean
 //    public UserDetailsService users(PasswordEncoder passwordEncoder) {
 //        UserDetails juan = User.builder()
@@ -78,6 +78,7 @@ public class SecurityConfig {
 //                .roles("USUARIO") // Consistent con tu configuración
 //                .build();
 //        return new InMemoryUserDetailsManager(juan, rebeca, pedro);
+//
 //    }
     
     @Autowired

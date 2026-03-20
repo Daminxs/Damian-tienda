@@ -16,6 +16,7 @@ public class RutaService {
     }
     
     @Transactional(readOnly=true)
+    
     public List<Ruta> getRutas() {
         return rutaRepository.findAllByOrderByRequiereRolAsc();
     }
